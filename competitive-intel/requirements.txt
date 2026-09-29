@@ -1,0 +1,12 @@
+playwright==1.44.0
+pyyaml==6.0.1
+python-slugify==8.0.4
+python-dotenv==1.0.1
+
+# OCR fallback pro Google bannerové reklamy bez alt textu
+# Vyžaduje také instalaci Tesseract OCR:
+#   Windows: https://github.com/UB-Mannheim/tesseract/wiki
+#   Stáhnout installer, vybrat češtinu (ces) a angličtinu (eng)
+#   Přidat cestu k tesseract.exe do PATH
+pytesseract==0.3.13
+Pillow>=11.0.0

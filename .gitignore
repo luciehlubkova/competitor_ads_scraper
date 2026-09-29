@@ -1,0 +1,22 @@
+# Runtime data a výstupy (negenerovat do repa)
+competitive-intel/storage/
+competitive-intel/logs/
+competitive-intel/reports/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Prostředí / tajné hodnoty
+.env
+*.local
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

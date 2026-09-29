@@ -1,0 +1,180 @@
+competitors:
+
+  # ── VLASTNÍ BRAND ──────────────────────────────────────────────────────
+  # Direct pojišťovna — sledujeme vlastní reklamní aktivitu jako referenci
+  # pro srovnání v reportu. Typ "vlastní" zajistí oddělené zpracování.
+  # TODO: doplň správné URL níže.
+  - name: Direct pojišťovna
+    slug: direct
+    type: vlastní
+    priority: 0
+    google_url: "https://adstransparency.google.com/?region=CZ&preset-date=Last+7+days&domain=direct.cz"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=57490695912"
+
+  # ── KONKURENTI ─────────────────────────────────────────────────────────
+  - name: Rixo
+    slug: rixo
+    type: srovnavač
+    priority: 1
+    google_url: "https://adstransparency.google.com/advertiser/AR05983339212303237121?region=CZ&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=1960181167558123"
+
+  - name: ePojištění
+    slug: epojisteni
+    type: srovnavač
+    priority: 1
+    # Pinováno: ePojištění.cz inzeruje pod účtem Klik.cz & ePojisteni.cz s.r.o.
+    # (domain= hledání vracelo cizí čínské účty). Pozn.: stejné AR ID jako `klik`
+    # – jeden Google účet pro obě značky, Google data se proto s klik překrývají.
+    google_url: "https://adstransparency.google.com/advertiser/AR15456379553500364801?region=CZ&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=104815352921317"
+
+  - name: Srovnejto
+    slug: srovnejto
+    type: srovnavač
+    priority: 1
+    google_url: "https://adstransparency.google.com/?region=CZ&domain=srovnejto.cz&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=140989762719473"
+
+  - name: Kooperativa
+    slug: koop
+    type: pojišťovna
+    priority: 1
+    google_url: "https://adstransparency.google.com/?region=CZ&domain=koop.cz&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=221119377898604"
+
+  - name: Klik
+    slug: klik
+    type: srovnavač
+    priority: 1
+    google_url: "https://adstransparency.google.com/?region=CZ&domain=klik.cz&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=302009752997659"
+
+  - name: UNIQA
+    slug: uniqa
+    type: pojišťovna
+    priority: 1
+    google_url: "https://adstransparency.google.com/?region=CZ&domain=uniqa.cz&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=112840467041210"
+
+  - name: Allianz
+    slug: allianz
+    type: pojišťovna
+    priority: 1
+    google_url: "https://adstransparency.google.com/advertiser/AR03360675260440510465?region=CZ&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=682448045139557"
+
+  - name: Generali Česká
+    slug: generaliceska
+    type: pojišťovna
+    priority: 1
+    google_url: "https://adstransparency.google.com/?region=CZ&domain=generaliceska.cz&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=490340660444"
+
+  - name: Česká podnikatelská pojišťovna
+    slug: cpp
+    type: pojišťovna
+    priority: 2
+    google_url: "https://adstransparency.google.com/?region=CZ&domain=cpp.cz&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=105155209151558"
+
+  - name: povinne-ruceni.com
+    slug: povinne-ruceni
+    type: srovnavač
+    priority: 2
+    # Pinováno: povinne-ruceni.com inzeruje pod účtem Suri Insurance Group a.s.
+    # (jediný inzerent pro tuto doménu). Pozn.: stejné AR ID jako `suri`
+    # – jeden Google účet, Google data se proto se suri překrývají.
+    google_url: "https://adstransparency.google.com/advertiser/AR01018163778958655489?region=CZ&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=579754898559649"
+
+  - name: kalkulator.cz
+    slug: kalkulator
+    type: srovnavač
+    priority: 2
+    google_url: "https://adstransparency.google.com/?region=CZ&domain=kalkulator.cz&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=123673350823884"
+
+  - name: ČSOB pojišťovna
+    slug: csobpoj
+    type: pojišťovna
+    priority: 2
+    google_url: "https://adstransparency.google.com/?region=CZ&domain=csobpoj.cz&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=678609582222825"
+
+  - name: Axa assistance
+    slug: axa-assistance
+    type: pojišťovna
+    priority: 2
+    google_url: "https://adstransparency.google.com/?region=CZ&domain=axa-assistance.cz&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=700081713416063"
+
+  - name: Top pojištění
+    slug: top-pojisteni
+    type: srovnavač
+    priority: 2
+    google_url: "https://adstransparency.google.com/?region=CZ&domain=top-pojisteni.cz&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=107296522624217"
+
+  - name: PetExpert
+    slug: petexpert
+    type: pojišťovna
+    priority: 2
+    google_url: "https://adstransparency.google.com/?region=CZ&domain=petexpert.cz&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=971715719657405"
+
+  - name: Ergo cestovní pojišťovna
+    slug: ergo-cestovni
+    type: pojišťovna
+    priority: 2
+    google_url: "https://adstransparency.google.com/?region=CZ&preset-date=Last+7+days&domain=ergo-cestovni.cz"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=103086858667"
+
+  - name: Pillow
+    slug: pillow
+    type: pojišťovna
+    priority: 3
+    google_url: "https://adstransparency.google.com/?region=CZ&domain=pillow.cz&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=101538037988528"
+
+  - name: suri.cz
+    slug: suri
+    type: srovnavač
+    priority: 3
+    google_url: "https://adstransparency.google.com/?region=CZ&domain=suri.cz&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=184790428058749"
+
+  - name: Slavia pojišťovna
+    slug: slavia
+    type: pojišťovna
+    priority: 3
+    google_url: "https://adstransparency.google.com/?region=CZ&domain=slavia-pojistovna.cz&preset-date=Last+7+days"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=148988738450932"
+
+  - name: Colonnade Nebuď býval
+    slug: collonade
+    type: pojišťovna
+    priority: 3
+    google_url: "https://adstransparency.google.com/?region=CZ&preset-date=Last+7+days&domain=nebudbyval.cz"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=100225116180330"
+
+  - name: Pojišťovna VZP
+    slug: pvzp
+    type: pojišťovna
+    priority: 3
+    google_url: "https://adstransparency.google.com/?region=CZ&preset-date=Last+7+days&domain=pvzp.cz"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=1817674995145870"
+
+  - name: Maxima pojišťovna
+    slug: maxima
+    type: pojišťovna
+    priority: 3
+    google_url: "https://adstransparency.google.com/?region=CZ&preset-date=Last+7+days&domain=maximapojistovna.cz"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=304515132980380"
+
+  - name: KB pojišťovna
+    slug: kbpojistovna
+    type: pojišťovna
+    priority: 3
+    google_url: "https://adstransparency.google.com/?region=CZ&preset-date=Last+7+days&domain=kbpojistovna.cz"
+    facebook_url: "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&content_languages[0]=cs&country=CZ&is_targeted_country=false&media_type=all&search_type=page&sort_data[direction]=desc&sort_data[mode]=total_impressions&start_date[min]=DATE_FROM&start_date[max]=DATE_TO&view_all_page_id=111739233813338"

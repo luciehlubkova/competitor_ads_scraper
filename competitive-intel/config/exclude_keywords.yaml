@@ -1,0 +1,74 @@
+# Reklamy obsahující tato slova jsou vždy přeskočeny
+always_skip:
+  - životní
+  - dodavatel energií
+  - tarify
+  - energie
+  - plyn
+  - elektřina
+  - mobilní operátoři
+  - mobilní tarif
+  - zemní plyn
+  - zmluvné poistenie
+  - distributor
+  - distribuce
+  - penze
+  - penzijní spoření
+  - DIP
+  - investice
+  - investujte
+  - penzijko
+  - investování
+
+# Klíčová slova specifická pro konkrétního konkurenta (slug jako klíč)
+# Reklamy obsahující tato slova jsou přeskočeny POUZE U DANÉHO konkurenta
+competitor_skip:
+  kbpojistovna:
+    # Identifikátor agentury KB banky – spolehlivě označuje bankovní (ne pojistné) reklamy
+    - Dentsu Media Services
+    # Hlavní web KB banky (pojišťovna používá kbpojistovna.cz)
+    - www.kb.cz
+    # Čistě bankovní produkty
+    - kontokorent
+    - spořicí účet
+    - kreditní karta
+    - stavební spoření
+    - hypotéka od kb
+    - půjčka od kb
+    - běžný účet
+    - podnikatelský účet
+
+# Tato slova způsobí přeskočení POUZE POKUD reklama zároveň NEOBSAHUJE žádné slovo z pet_exception
+conditional_skip:
+  keywords:
+    - zdravotní
+    - úrazové
+  pet_exception:
+    # pes – časté tvary
+    - pes
+    - psa
+    - psi
+    - psy
+    - psů
+    - psem
+    - psu
+    # kočka – časté tvary
+    - kočka
+    - kočky
+    - koček
+    - kočce
+    - kočku
+    - kočkou
+    # mazlíček – časté tvary
+    - mazlíček
+    - mazlíčků
+    - mazlíčka
+    - mazlíčku
+    - mazlíčkem
+    - mazlíčci
+    - mazlíčky
+    # zvíře – časté tvary
+    - zvíře
+    - zvířat
+    - zvířata
+    - zvěř
