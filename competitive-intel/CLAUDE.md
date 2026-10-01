@@ -246,6 +246,13 @@ Návrhy z analýzy, které zatím **nejsou** v kódu (detaily v `../navrh-reseni
 
 ## Changelog
 
+### 2026-10-01 (reklamy beze změny v reportu)
+- **Reklamy „beze změny" se nově vypisují i s texty** (dřív jen počet). Dlouhodobě komunikovaná sdělení (limity plnění, podpojištění, pojistné částky, servisní sliby) se tím dostanou do analýzy jako stabilní jádro komunikace. Nové ani odstraněné reklamy nezměněny.
+- **`diff.py`** – `compare()` vrací nový klíč `unchanged` = `{"google": [...], "facebook": [...]}` se samotnými reklamami (`curr_list` bez `new_ads`). `unchanged_count` ponechán (zpětná kompatibilita). `is_first_run` i `suspicious_empty` Google → prázdné seznamy.
+- **`reporter.py`** – nová tabulka `_unchanged_ads_table` (sloupce jako u nových reklam, text z `_ad_full_text` → přednost `full_text`, ořez 300 zn. místo 120, odstřižení interní značky `[creative_id]`). Doplněna do „#### Beze změny" u Direct, u inzerentů se změnami i do sekce „Beze změny oproti minulému týdnu". Proti nafouknutí: dedup variant přes `SequenceMatcher ≥ 0.85` (`_dedup_unchanged`), řazení od nejdelšího textu a limit `MAX_UNCHANGED_PER_PLATFORM = 40` na inzerenta a platformu (+ řádek „… a dalších N podobných reklam."). U `suspicious_empty` tabulka vynechána, zůstává jen varování.
+- **`SKILL.md`** (monitoring-konkurence) – doplněno čtení tabulky „#### Beze změny" jako dlouhodobého sdělení, rozlišení „dlouhodobě" vs. „nově", zákaz uvádět počty zůstává; nový bod v kontrolním seznamu.
+- **Ověřeno offline** (synthetic snapshoty s `full_text`, bez scraperu/Playwright): tabulky u inzerentů se změnami i beze změny, správné vykreslení Markdownu (escapovaný `｜`, žádné zalomené buňky), dedup + limit + overflow řádek, zachované chování nových/odstraněných. Ostrý `--dry-run` proběhne stejnou cestou na stroji se snapshoty.
+
 ### 2026-06-08 (živý týdenní běh)
 - **První ostrý týdenní běh s novým `creative_id` diffem + reporterem.** Všech 23 konkurentů, exit 0, žádné chyby. Report 23 KB, OCR 96 % (886/920). Baseline = snapshoty 06-02/06-03.
 - **Potvrzeno: `creative_id` nerotuje** – většina konkurentů 0–5 nových / desítky beze změny. Jediný odlehlík `ergo-cestovni` (40 nových, 0 z cache) = reálný refresh kampaně, ne rotace klíče.

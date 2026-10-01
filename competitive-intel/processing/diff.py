@@ -52,8 +52,13 @@ class DiffEngine:
     ) -> dict:
         """
         current = {'google': [...], 'facebook': [...]}
-        Returns diff with keys: is_first_run, new, removed, unchanged_count,
-        suspicious_empty.
+        Returns diff with keys: is_first_run, new, removed, unchanged,
+        unchanged_count, suspicious_empty.
+
+        "unchanged" drží samotné reklamy (dicty), které jsou v aktuálním týdnu
+        i v minulém snapshotu (tedy curr_list bez new_ads) – reporter z nich
+        vypisuje dlouhodobě běžící sdělení. "unchanged_count" zůstává jen počet
+        kvůli zpětné kompatibilitě.
 
         run_date (today) is excluded from the previous-snapshot lookup so that
         re-running on the same day compares against the prior run, not against
@@ -66,12 +71,14 @@ class DiffEngine:
                 "is_first_run": True,
                 "new": {p: ads for p, ads in current.items()},
                 "removed": {"google": [], "facebook": []},
+                "unchanged": {"google": [], "facebook": []},
                 "unchanged_count": {"google": 0, "facebook": 0},
                 "suspicious_empty": {"google": False, "facebook": False},
             }
 
         new_ads: dict[str, list] = {}
         removed_ads: dict[str, list] = {}
+        unchanged_ads: dict[str, list] = {}
         unchanged: dict[str, int] = {}
         suspicious: dict[str, bool] = {}
 
@@ -91,6 +98,9 @@ class DiffEngine:
                     a for a in curr_list if not _find_match(a, prev_list)
                 ]
                 removed_ads[platform] = []
+                unchanged_ads[platform] = [
+                    a for a in curr_list if _find_match(a, prev_list)
+                ]
                 unchanged[platform] = len(curr_list) - len(new_ads[platform])
                 continue
 
@@ -103,6 +113,7 @@ class DiffEngine:
                 suspicious[platform] = True
                 new_ads[platform] = []
                 removed_ads[platform] = []
+                unchanged_ads[platform] = []
                 unchanged[platform] = 0
                 continue
 
@@ -110,12 +121,14 @@ class DiffEngine:
             suspicious[platform] = False
             new_ads[platform] = [a for a in curr_list if not _matches(a, prev_list)]
             removed_ads[platform] = [a for a in prev_list if not _matches(a, curr_list)]
+            unchanged_ads[platform] = [a for a in curr_list if _matches(a, prev_list)]
             unchanged[platform] = len(curr_list) - len(new_ads[platform])
 
         return {
             "is_first_run": False,
             "new": new_ads,
             "removed": removed_ads,
+            "unchanged": unchanged_ads,
             "unchanged_count": unchanged,
             "suspicious_empty": suspicious,
         }

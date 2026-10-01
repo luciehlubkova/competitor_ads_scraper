@@ -1,10 +1,26 @@
 import re
 from datetime import date, datetime, timedelta
+from difflib import SequenceMatcher
 from pathlib import Path
+
+# Reklamy beze změny = dlouhodobě běžící sdělení. Vypisujeme je i s texty, ale
+# aby report nenabobtnal, dedupikujeme podobné varianty (SequenceMatcher ≥ práh,
+# stejný jako v diff.py) a limitujeme počet řádků na inzerenta a platformu.
+UNCHANGED_SIMILARITY_THRESHOLD = 0.85
+MAX_UNCHANGED_PER_PLATFORM = 40
 
 
 def _fmt_date(d: date) -> str:
     return f"{d.day}.{d.month}.{d.year}"
+
+
+def _clean_cell(text: str, max_len: int) -> str:
+    """Připraví text do buňky Markdown tabulky: sjednotí bílé znaky (newline uvnitř
+    buňky rozbije tabulku i převod do HTML), ořízne na max_len a escapuje `|`."""
+    text = re.sub(r"\s+", " ", (text or "").strip())
+    if len(text) > max_len:
+        text = text[:max_len].rstrip() + "…"
+    return text.replace("|", "｜")
 
 
 def _ad_text_short(ad: dict, max_len: int = 120) -> str:
@@ -15,14 +31,30 @@ def _ad_text_short(ad: dict, max_len: int = 120) -> str:
         or ad.get("image_alt")
         or ad.get("raw_text")
         or ""
-    ).strip()
-    # Collapse all whitespace (incl. newlines) to single spaces – a newline
-    # inside a Markdown table cell breaks the table layout (and HTML conversion).
-    text = re.sub(r"\s+", " ", text)
-    if len(text) > max_len:
-        text = text[:max_len].rstrip() + "…"
-    # Escape pipe characters so they don't break Markdown tables
-    return text.replace("|", "｜")
+    )
+    return _clean_cell(text, max_len)
+
+
+def _ad_full_text(ad: dict) -> str:
+    """Nejbohatší dostupný text reklamy pro sekce „beze změny". Přednostně
+    `full_text` (používá ho diff.py) – obsahuje víc detailů (limity, částky,
+    servisní sliby), které by 120znakový ořez `_ad_text_short` skryl. Fallback
+    na stejná pole jako `_ad_text_short`. Z konce ořízne interní značku
+    `[creative_id]`, kterou doplňuje scraper/diff."""
+    text = (ad.get("full_text") or "").strip()
+    cid = (ad.get("creative_id") or "").strip()
+    if cid and text.endswith(f"[{cid}]"):
+        text = text[: -len(f"[{cid}]")].rstrip()
+    if not text:
+        text = (
+            ad.get("text")
+            or ad.get("headline")
+            or ad.get("description")
+            or ad.get("image_alt")
+            or ad.get("raw_text")
+            or ""
+        ).strip()
+    return text
 
 
 def _ad_cta(ad: dict) -> str:
@@ -65,6 +97,58 @@ def _removed_ads_table(ads_google: list, ads_facebook: list) -> str:
     for ad in ads_facebook:
         rows.append(f'| Facebook | "{_ad_text_short(ad)}" |')
     return "\n".join(rows)
+
+
+def _dedup_unchanged(ads: list) -> list:
+    """Dedup reklam beze změny podle podobnosti textu (SequenceMatcher ≥ práh),
+    aby se každá varianta sdělení objevila jen jednou. Nejdřív seřadí od
+    nejdelšího textu, takže se jako reprezentant varianty udrží ta s nejvíc
+    detaily a na začátku seznamu jsou nejobsáhlejší reklamy."""
+    ordered = sorted(ads, key=lambda a: len(_ad_full_text(a)), reverse=True)
+    kept: list = []
+    for ad in ordered:
+        txt = _ad_full_text(ad)
+        if any(
+            SequenceMatcher(None, txt, _ad_full_text(k)).ratio()
+            >= UNCHANGED_SIMILARITY_THRESHOLD
+            for k in kept
+        ):
+            continue
+        kept.append(ad)
+    return kept
+
+
+def _unchanged_ads_table(ads_google: list, ads_facebook: list) -> str:
+    """Tabulka dlouhodobě běžících reklam (beze změny). Stejné sloupce jako
+    `_new_ads_table`, ale text se bere z `_ad_full_text` a ořezává až na 300 zn.,
+    aby zůstaly detaily jako limity plnění, pojistné částky nebo servisní sliby.
+    Varianty se dedupikují a počet řádků na platformu je limitovaný."""
+    g = _dedup_unchanged(ads_google)
+    fb = _dedup_unchanged(ads_facebook)
+    if not g and not fb:
+        return ""
+    rows = [
+        "| Platforma | Typ | Text reklamy | CTA | Datum |",
+        "|-----------|:---:|-------------|-----|-------|",
+    ]
+    overflow_notes: list[str] = []
+    for label, ads, is_fb in (("Google", g, False), ("Facebook", fb, True)):
+        shown = ads[:MAX_UNCHANGED_PER_PLATFORM]
+        for ad in shown:
+            datum = _ad_date(ad) if is_fb else "—"
+            rows.append(
+                f'| {label} | {_ad_type_icon(ad)} | '
+                f'"{_clean_cell(_ad_full_text(ad), 300)}" | {_ad_cta(ad)} | {datum} |'
+            )
+        overflow = len(ads) - len(shown)
+        if overflow > 0:
+            overflow_notes.append(
+                f"… a dalších {overflow} podobných reklam ({label})."
+            )
+    table = "\n".join(rows)
+    if overflow_notes:
+        table += "\n\n" + "\n".join(overflow_notes)
+    return table
 
 
 def _ocr_display(res: dict) -> str | None:
@@ -177,6 +261,13 @@ class ReportGenerator:
                 if total_unch:
                     lines.append("#### Beze změny")
                     lines.append(f"{total_unch} reklam se opakuje z minulého týdne.")
+                    table = _unchanged_ads_table(
+                        diff.get("unchanged", {}).get("google", []),
+                        diff.get("unchanged", {}).get("facebook", []),
+                    )
+                    if table:
+                        lines.append("")
+                        lines.append(table)
                     lines.append("")
                 lines.append("---")
                 lines.append("")
@@ -239,11 +330,19 @@ class ReportGenerator:
                         lines.append(table)
                 lines.append("")
 
-            # Unchanged
+            # Unchanged — dlouhodobě běžící sdělení (stabilní jádro komunikace).
+            # Vedle počtu vypisujeme i texty, aby je šlo analyzovat.
             total_unch = unch_g + unch_fb
             if total_unch:
                 lines.append(f"#### Beze změny")
                 lines.append(f"{total_unch} reklam se opakuje z minulého týdne.")
+                table = _unchanged_ads_table(
+                    diff.get("unchanged", {}).get("google", []),
+                    diff.get("unchanged", {}).get("facebook", []),
+                )
+                if table:
+                    lines.append("")
+                    lines.append(table)
                 lines.append("")
 
             lines.append("---")
@@ -274,6 +373,17 @@ class ReportGenerator:
             gw = res["google"].get("warning")
             if gw:
                 lines.append(f"> ⚠ {gw}")
+            # Dlouhodobě běžící reklamy i u inzerentů beze změny – u
+            # suspicious_empty (přeneseno z min. týdne) tabulku vynecháme,
+            # unchanged seznam je tam prázdný a zůstane jen varování výše.
+            table = _unchanged_ads_table(
+                diff.get("unchanged", {}).get("google", []),
+                diff.get("unchanged", {}).get("facebook", []),
+            )
+            if table:
+                lines.append("")
+                lines.append("#### Beze změny")
+                lines.append(table)
             lines.append("")
             lines.append("---")
             lines.append("")
