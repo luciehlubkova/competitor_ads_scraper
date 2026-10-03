@@ -23,7 +23,7 @@ def _clean_cell(text: str, max_len: int) -> str:
     return text.replace("|", "｜")
 
 
-def _ad_text_short(ad: dict, max_len: int = 120) -> str:
+def _ad_text_short(ad: dict, max_len: int = 500) -> str:
     text = (
         ad.get("text")
         or ad.get("headline")
@@ -120,7 +120,7 @@ def _dedup_unchanged(ads: list) -> list:
 
 def _unchanged_ads_table(ads_google: list, ads_facebook: list) -> str:
     """Tabulka dlouhodobě běžících reklam (beze změny). Stejné sloupce jako
-    `_new_ads_table`, ale text se bere z `_ad_full_text` a ořezává až na 300 zn.,
+    `_new_ads_table`, ale text se bere z `_ad_full_text` a ořezává až na 500 zn.,
     aby zůstaly detaily jako limity plnění, pojistné částky nebo servisní sliby.
     Varianty se dedupikují a počet řádků na platformu je limitovaný."""
     g = _dedup_unchanged(ads_google)
@@ -138,7 +138,7 @@ def _unchanged_ads_table(ads_google: list, ads_facebook: list) -> str:
             datum = _ad_date(ad) if is_fb else "—"
             rows.append(
                 f'| {label} | {_ad_type_icon(ad)} | '
-                f'"{_clean_cell(_ad_full_text(ad), 300)}" | {_ad_cta(ad)} | {datum} |'
+                f'"{_clean_cell(_ad_full_text(ad), 500)}" | {_ad_cta(ad)} | {datum} |'
             )
         overflow = len(ads) - len(shown)
         if overflow > 0:

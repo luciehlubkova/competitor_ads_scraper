@@ -246,6 +246,13 @@ Návrhy z analýzy, které zatím **nejsou** v kódu (detaily v `../navrh-reseni
 
 ## Changelog
 
+### 2026-10-03 (delší text reklam v reportu)
+- **Zvýšen limit délky textu reklam v reportu** (`reporter.py`). Dřív se dlouhá textace usekávala už po první větě. Nově:
+  - **Nové reklamy** (a odstraněné FB) – `_ad_text_short` `max_len` **120 → 500** zn.
+  - **Beze změny** (dlouhodobá sdělení) – `_unchanged_ads_table` ořez **300 → 500** zn.
+- **Text se nikdy nečetl ořezaný** – OCR i extrakce čtou celou reklamu, `full_text` v `storage/snapshots/*.json` je kompletní. Ořez byl vždy jen kosmetika při výpisu do Markdown reportu. Změna se projeví i při přegenerování ze stávajících snapshotů (`--dry-run`).
+- **Pozor na velikost reportu** – po prvním běhu ověř v checklistu, že report zůstal řádově v jednotkách–desítkách KB. Kdyby nabobtnal, snížit limit (např. na 350).
+
 ### 2026-10-01 (reklamy beze změny v reportu)
 - **Reklamy „beze změny" se nově vypisují i s texty** (dřív jen počet). Dlouhodobě komunikovaná sdělení (limity plnění, podpojištění, pojistné částky, servisní sliby) se tím dostanou do analýzy jako stabilní jádro komunikace. Nové ani odstraněné reklamy nezměněny.
 - **`diff.py`** – `compare()` vrací nový klíč `unchanged` = `{"google": [...], "facebook": [...]}` se samotnými reklamami (`curr_list` bez `new_ads`). `unchanged_count` ponechán (zpětná kompatibilita). `is_first_run` i `suspicious_empty` Google → prázdné seznamy.
